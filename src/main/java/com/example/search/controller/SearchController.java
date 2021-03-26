@@ -73,7 +73,8 @@ public class SearchController {
 
 	@GetMapping(value = "/recipe/search/category/{id}")
 	public List<SearchRecipe> getCategoryRecipe(@PathVariable long id) {
-		return searchRepo.findByCategoryId(id);
+		List<SearchRecipe> search = id == 0 ? searchRepo.findAll() : searchRepo.findByCategoryId(id);
+		return search;
 	}
 
 	@GetMapping(value = "/recipe/search/all-stuffs")
