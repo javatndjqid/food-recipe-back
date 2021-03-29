@@ -12,4 +12,6 @@ public interface SearchRecipeRepository extends JpaRepository<SearchRecipe, Long
 	List<SearchRecipe> findByCategoryId(long categoryId);
 
 	List<SearchRecipe> findByStuff(String stuff);
+
+	SearchRecipe findByRecipeId(long recipeId);
 }

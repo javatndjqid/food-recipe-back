@@ -28,6 +28,7 @@ public class SearchRecipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	private long recipeId;
 	@ManyToMany(targetEntity = Category.class)
 	private List<Category> category;
 	@ElementCollection

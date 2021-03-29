@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.search.entity.Category;
@@ -89,24 +87,5 @@ public class SearchController {
 			}
 		}
 		return stuffs;
-	}
-
-	@GetMapping(value = "/recipe/search/stuffs/{categoryId}")
-	public List<SearchRecipe> getStuffRecipe(@PathVariable long categoryId, @RequestParam String checkStuff) {
-		System.out.println("getStuffRecipe()실행");
-		List<SearchRecipe> searchList = categoryId == 0 ? searchRepo.findAll()
-				: searchRepo.findByCategoryId(categoryId);
-		System.out.println(searchList);
-		searchList = searchList.stream().filter(search -> search.getStuff().contains(checkStuff))
-				.collect(Collectors.toList());
-		System.out.println(searchList);
-
-//		for (SearchRecipe search : searchs) {
-//			Set<String> stuffs = search.getStuff();
-//			if (!stuffs.contains(checkStuff))
-//				continue;
-//			searchList.add(search);
-//		}
-		return searchList;
 	}
 }
