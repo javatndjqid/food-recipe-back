@@ -23,20 +23,21 @@ public class SearchRecipeService {
 		System.out.println(recipe);
 
 		SearchRecipe addRecipe = SearchRecipe.builder().recipeId(recipe.getRecipeId()).name(recipe.getRecipeName())
-				.image(recipe.getRecipefile().get(0).getDataUrl()).build();
+				.build();
 		System.out.println(addRecipe);
 		searchRepo.save(addRecipe);
 	}
 
 	@RabbitListener(queues = "recipe.order.id")
-	public void DeleteData(long id) {
+	public void DeleteData(long recipeId) {
 		System.out.println("----- DeleteData Log -----");
-		System.out.println("지울 data Id: " + id);
-//		SearchRecipe recipe = searchRepo.findByRecipeId(1);
-//		System.out.println(recipe);
-//		if (recipe == null) {
-//			return;
-//		}
-//		searchRepo.delete(recipe);
+		System.out.println("지울 data Id: " + recipeId);
+		long id = searchRepo.findByRecipeId(recipeId) == null ? 0 : searchRepo.findByRecipeId(recipeId).getId();
+		SearchRecipe recipe = searchRepo.findById(id).orElse(null);
+		System.out.println(id);
+		if (recipe == null) {
+			return;
+		}
+		searchRepo.delete(recipe);
 	}
 }

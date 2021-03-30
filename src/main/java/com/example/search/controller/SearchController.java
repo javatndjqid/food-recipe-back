@@ -42,6 +42,14 @@ public class SearchController {
 		return recipe;
 	}
 
+	@PostMapping(value = "/recipe/search/multi-post")
+	public List<SearchRecipe> setMultiSearchRecipe(@RequestBody List<SearchRecipe> recipes) {
+		for (SearchRecipe recipe : recipes) {
+			searchRepo.save(recipe);
+		}
+		return recipes;
+	}
+
 	@DeleteMapping(value = "recipe/search/{id}")
 	public SearchRecipe delSearchRecipe(@PathVariable long id, HttpServletResponse res) {
 		SearchRecipe recipe = searchRepo.findById(id).orElse(null);
