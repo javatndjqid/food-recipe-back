@@ -31,8 +31,10 @@ public class SearchRecipeService {
 		System.out.println("----- getRecipeData Log -----");
 		System.out.println(recipe);
 		Set<String> stuffs = new HashSet<>();
+		System.out.println(recipe.getStuffRecipe());
 		if (recipe.getStuffRecipe() != null) {
 			for (StuffRecipe stuff : recipe.getStuffRecipe()) {
+				System.out.println(stuff.getStuffName());
 				stuffs.add(stuff.getStuffName());
 			}
 		}

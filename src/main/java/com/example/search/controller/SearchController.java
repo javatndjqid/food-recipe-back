@@ -1,23 +1,18 @@
 package com.example.search.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.search.entity.Category;
@@ -37,8 +32,8 @@ public class SearchController {
 	}
 
 	@GetMapping(value = "/recipe/search")
-	public List<SearchRecipe> getRecipes(@RequestParam Integer page) {
-		return searchRepo.findAll(PageRequest.of(page, 12, Sort.by("id").descending())).toList();
+	public List<SearchRecipe> getRecipes() {
+		return searchRepo.findAll();
 	}
 
 	@GetMapping(value = "/recipe/search/count")
@@ -89,9 +84,8 @@ public class SearchController {
 	}
 
 	@GetMapping(value = "/recipe/search/category/{id}")
-	public List<SearchRecipe> getCategoryRecipe(@PathVariable long id, @RequestParam Integer page) {
-		return id == 0 ? searchRepo.findAll(PageRequest.of(page, 12, Sort.by("id").descending())).toList()
-				: searchRepo.findByCategoryId(id, PageRequest.of(page, 12, Sort.by("id").descending()));
+	public List<SearchRecipe> getCategoryRecipe(@PathVariable long id) {
+		return id == 0 ? searchRepo.findAll() : searchRepo.findByCategoryId(id);
 	}
 
 	@GetMapping(value = "/recipe/search/all-stuffs")
@@ -108,39 +102,30 @@ public class SearchController {
 		return stuffs;
 	}
 
-	@PostMapping(value = "/recipe/search/stuffs/{categoryId}")
-	public List<SearchRecipe> getStuffRecipe(@PathVariable long categoryId, @RequestParam int page,
-			@RequestBody List<String> checkStuffs) {
-		System.out.println("getStuffRecipe()실행");
-		List<SearchRecipe> searchList = categoryId == 0 ? searchRepo.findAll()
-				: searchRepo.findByCategoryId(categoryId);
-
-		System.out.println("SearchList:");
-//		System.out.println(searchList);
-		System.out.println(checkStuffs.toString());
-		if (checkStuffs != null) {
-			for (String checkStuff : checkStuffs) {
-				System.out.println("for문 실행");
-				searchList = searchList.stream().filter(search -> search.getStuff().contains(checkStuff))
-						.collect(Collectors.toList());
-			}
-		}
-		List<SearchRecipe> search = new ArrayList<SearchRecipe>();
-		for (int i = page * 12; i < (page + 1) * 12; i++) {
-			if (i >= searchList.size()) {
-				break;
-			}
-			search.add(searchList.get(i));
-
-		}
-		System.out.println(search);
-
-//		for (SearchRecipe search : searchs) {
-//			Set<String> stuffs = search.getStuff();
-//			if (!stuffs.contains(checkStuff))
-//				continue;
-//			searchList.add(search);
-//		}
-		return search;
-	}
+//	@PostMapping(value = "/recipe/search/stuffs/{categoryId}")
+//	public List<SearchRecipe> getStuffRecipe(@PathVariable long categoryId, @RequestBody List<String> checkStuffs) {
+//		System.out.println("getStuffRecipe()실행");
+//		List<SearchRecipe> searchList = categoryId == 0 ? searchRepo.findAll()
+//				: searchRepo.findByCategoryId(categoryId);
+//
+//		System.out.println("SearchList:");
+////		System.out.println(searchList);
+//		System.out.println(checkStuffs.toString());
+//		if (checkStuffs != null) {
+//			for (String checkStuff : checkStuffs) {
+//				System.out.println("for문 실행");
+//				searchList = searchList.stream().filter(search -> search.getStuff().contains(checkStuff))
+//						.collect(Collectors.toList());
+//			}
+//		}		
+////		search.sort(null);
+//
+////		for (SearchRecipe search : searchs) {
+////			Set<String> stuffs = search.getStuff();
+////			if (!stuffs.contains(checkStuff))
+////				continue;
+////			searchList.add(search);
+////		}
+//		return search;
+//	}
 }
