@@ -13,20 +13,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Recipe {
 
-	private long recipeId;
+	long recipeId;
 
-	private String recipeName;
-	private long userId;
+	String recipeName;
+	String userId;
 
-	private String image;
-	private String tip;
-	private String Explanation;
-	private String category;
+	String image;
+	String tip;
+	String explanation;
+	String category;
 
-	private List<RecipeFile> Recipefile;
+	List<RecipeFile> recipefile;
 
-	private List<StuffRecipe> StuffRecipe;
+	List<StuffRecipe> stuffRecipe;
 
-	private List<RecipeProcedure> recipeProcedure;
+	List<RecipeProcedure> recipeProcedure;
 
 }

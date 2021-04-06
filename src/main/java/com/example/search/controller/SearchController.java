@@ -50,10 +50,10 @@ public class SearchController {
 // /recipe/search/multi-post?search={search}&search={search2}&....
 	@PostMapping(value = "/recipe/search/multi-post")
 	public List<SearchRecipe> setMultiSearchRecipe(@RequestBody List<SearchRecipe> recipes) {
-		for (SearchRecipe recipe : recipes) {
-			searchRepo.save(recipe);
-		}
-		return recipes;
+//		for (SearchRecipe recipe : recipes) {
+//			searchRepo.save(recipe);
+//		}
+		return searchRepo.saveAll(recipes);
 	}
 
 	@DeleteMapping(value = "recipe/search/{id}")
@@ -67,6 +67,18 @@ public class SearchController {
 		searchRepo.delete(recipe);
 		return recipe;
 	}
+//	@GetMapping(value = "/recipes")
+//	public List<Recipe> getRecipeList(HttpServletRequest req) {
+//		List<Recipe> list = RecipeRepo.findAll();
+//		for (Recipe recipe : list) {
+//			for (RecipeFile Recipefile : recipe.getRecipefile()) {
+//				Recipefile.setDataUrl(apiConfig.getBasePath() + "/recipe-files/" + Recipefile.getId());
+//
+//			}
+//		}
+//		return list;
+//
+//	}
 
 	@GetMapping(value = "/recipe/search/{id}")
 	public SearchRecipe getSearchDetail(@PathVariable long id, HttpServletResponse res) {

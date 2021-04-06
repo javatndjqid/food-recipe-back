@@ -9,13 +9,22 @@ spring:
 #    -defualt <- 밑에 들어갈때는 대시'-'문자가 필요
   #database 접속 정보
   datasource:
-         #jdbc:mysql://엔드포인트/데이터베이스?옵션...    url: jdbc:mysql://mysql-1.cbj1plpzg9sq.ap-northeast-2.rds.amazonaws.com/search?useUnicode=true&characterEncoding=utf-8
+         #jdbc:mysql://엔드포인트/데이터베이스?옵션...    url: jdbc:mysql://mysql-1.cbj1plpzg9sq.ap-northeast-2.rds.amazonaws.com/search?useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true
     username: admin
     password: password123!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:    show-sql: true # 데이터처리할 대 SQL문을 보여줌
     generate-ddl: true # 클래스 정의에 따른 테이블 및 데이터베이스 객체 생성
+    properties:
+      hibernate:
+        jdbc:
+          batch-size: 5
+        order-inserts: true
+        order-updates: true
+        generate-statistics: true
   rabbitmq:
-    host: ec2-3-34-127-170.ap-northeast-2.compute.amazonaws.com
+    host: ec2-13-125-229-154.ap-northeast-2.compute.amazonaws.com
     username: rabbitmq
     password: password123
+  api:
+    base-path: http://192.168.0.29:8080    
