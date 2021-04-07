@@ -38,12 +38,6 @@ public class SearchRecipeService {
 		System.out.println(recipe.getStuffRecipe());
 		System.out.println("===== getImage() =====");
 		System.out.println(recipe.getRecipefile());
-//
-//		for (RecipeFile recipeFile : recipe.getRecipefile()) {
-//			System.out.println("for문 실행");
-//			recipeFile.setDataUrl(apiConfig.getBasePath() + "/recipe-files/" + recipeFile.getId());
-//			System.out.println("for문 종료");
-//		}
 
 		if (recipe.getStuffRecipe() != null) {
 			for (StuffRecipe stuff : recipe.getStuffRecipe()) {
@@ -59,8 +53,9 @@ public class SearchRecipeService {
 				.equals("https://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif")) {
 			System.out.println("image 삽입 실행");
 			StringBuilder builder = new StringBuilder();
-//			builder.append("http://ec2-3-34-127-170.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
-			builder.append("http://192.168.0.29:8080/recipes/" + recipe.getRecipeId());
+			builder.append("http://ec2-13-209-41-162.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
+//			builder.append("http://192.168.0.29:8080/recipes/" 
+					+ recipe.getRecipeId());
 			System.out.println("builder");
 			URL url = new URL(builder.toString());
 			System.out.println("url 생성");
@@ -79,11 +74,6 @@ public class SearchRecipeService {
 
 			Recipe[] recipeObject = new Gson().fromJson(data, Recipe[].class);
 			System.out.println(recipeObject[0].getRecipefile().isEmpty());
-//			JsonObject json = new JsonParser().parse(data).getAsJsonObject();
-//			JsonArray jsonArray = json.getAsJsonArray("recipefile");
-//			JsonObject json1 = jsonArray.get(0).getAsJsonObject();
-//			JsonPrimitive jsonPre = json1.getAsJsonPrimitive("dataUrl");
-//			String imageUrl = jsonPre.getAsString();
 			if (recipeObject[0].getRecipefile().isEmpty()) {
 				searchRepo.save(addRecipe);
 				return;
