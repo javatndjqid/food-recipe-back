@@ -37,4 +37,8 @@ eureka:
       defaultZone: http://3.36.141.39:8761/eureka/
   instance:    
       # 본인 서비스의 ec2 ip 주소
-    hostname: 3.36.141.39
+    hostname: 13.124.101.115
+    
+ribbon:
+  eureka:
+    enabled: true

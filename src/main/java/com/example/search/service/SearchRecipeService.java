@@ -53,9 +53,8 @@ public class SearchRecipeService {
 				.equals("https://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif")) {
 			System.out.println("image 삽입 실행");
 			StringBuilder builder = new StringBuilder();
-			builder.append("http://ec2-13-209-41-162.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
-//			builder.append("http://192.168.0.29:8080/recipes/" 
-					+ recipe.getRecipeId());
+//			builder.append("http://ec2-13-209-41-162.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
+			builder.append("http://192.168.0.29:8080/recipes/" + recipe.getRecipeId());
 			System.out.println("builder");
 			URL url = new URL(builder.toString());
 			System.out.println("url 생성");
