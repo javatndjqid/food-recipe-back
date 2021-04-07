@@ -18,8 +18,8 @@ public class LectureResponse {
 
 	private String title;
 	private String summary;
-	private String videoSRC;
-	private String imageSRC;
+	private String videoSrc;
+	private String imageSrc;
 	private String category;
 
 	private List<Stuff> stuffs;

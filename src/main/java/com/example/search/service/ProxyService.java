@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.search.LectureClient;
 import com.example.search.MarketClient;
+import com.example.search.RecipeClient;
+import com.example.search.detail.Recipe;
 import com.example.search.response.LectureResponse;
 import com.example.search.response.ProductResponse;
 import com.google.gson.Gson;
@@ -15,8 +17,8 @@ public class ProxyService {
 	LectureClient lecture;
 	@Autowired
 	MarketClient market;
-//	@Autowired
-//	RecipeClient recipe;
+	@Autowired
+	RecipeClient recipe;
 
 	public LectureResponse[] getLecture() {
 		String data = lecture.getLecture();
@@ -36,17 +38,11 @@ public class ProxyService {
 		return product;
 	}
 
-//	public Recipe getRecipeDetail(long recipeId) {
-//		String json = recipe.getRecipeDetail(recipeId);
-//		System.out.println(json);
-//		Recipe[] detail = new Gson().fromJson(json, Recipe[].class);
-//		System.out.println(detail);
-//		JsonParser parser = new JsonParser();
-//		JsonObject ob = (JsonObject) parser.parse(json);
-//		Recipe detail = (Recipe)ob.
-//		System.out.println(ob);
-//		System.out.println(recipeRes);
-//		Recipe detail = new Recipe(recipeRes.getRecipe().get(0));
-//		return detail[0];
-//	}
+	public Recipe getRecipeDetail(long recipeId) {
+		String json = recipe.getRecipeDetail(recipeId);
+		System.out.println(json);
+		Recipe[] detail = new Gson().fromJson(json, Recipe[].class);
+		System.out.println(detail);
+		return detail[0];
+	}
 }

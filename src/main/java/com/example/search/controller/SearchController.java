@@ -47,12 +47,9 @@ public class SearchController {
 		return recipe;
 	}
 
-// /recipe/search/multi-post?search={search}&search={search2}&....
 	@PostMapping(value = "/recipe/search/multi-post")
 	public List<SearchRecipe> setMultiSearchRecipe(@RequestBody List<SearchRecipe> recipes) {
-//		for (SearchRecipe recipe : recipes) {
-//			searchRepo.save(recipe);
-//		}
+
 		return searchRepo.saveAll(recipes);
 	}
 
@@ -67,18 +64,6 @@ public class SearchController {
 		searchRepo.delete(recipe);
 		return recipe;
 	}
-//	@GetMapping(value = "/recipes")
-//	public List<Recipe> getRecipeList(HttpServletRequest req) {
-//		List<Recipe> list = RecipeRepo.findAll();
-//		for (Recipe recipe : list) {
-//			for (RecipeFile Recipefile : recipe.getRecipefile()) {
-//				Recipefile.setDataUrl(apiConfig.getBasePath() + "/recipe-files/" + Recipefile.getId());
-//
-//			}
-//		}
-//		return list;
-//
-//	}
 
 	@GetMapping(value = "/recipe/search/{id}")
 	public SearchRecipe getSearchDetail(@PathVariable long id, HttpServletResponse res) {
@@ -114,30 +99,4 @@ public class SearchController {
 		return stuffs;
 	}
 
-//	@PostMapping(value = "/recipe/search/stuffs/{categoryId}")
-//	public List<SearchRecipe> getStuffRecipe(@PathVariable long categoryId, @RequestBody List<String> checkStuffs) {
-//		System.out.println("getStuffRecipe()실행");
-//		List<SearchRecipe> searchList = categoryId == 0 ? searchRepo.findAll()
-//				: searchRepo.findByCategoryId(categoryId);
-//
-//		System.out.println("SearchList:");
-////		System.out.println(searchList);
-//		System.out.println(checkStuffs.toString());
-//		if (checkStuffs != null) {
-//			for (String checkStuff : checkStuffs) {
-//				System.out.println("for문 실행");
-//				searchList = searchList.stream().filter(search -> search.getStuff().contains(checkStuff))
-//						.collect(Collectors.toList());
-//			}
-//		}		
-////		search.sort(null);
-//
-////		for (SearchRecipe search : searchs) {
-////			Set<String> stuffs = search.getStuff();
-////			if (!stuffs.contains(checkStuff))
-////				continue;
-////			searchList.add(search);
-////		}
-//		return search;
-//	}
 }

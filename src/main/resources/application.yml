@@ -3,7 +3,7 @@ server:
 # nohup java -jar -Dspring.profiles.active-prod myworkspace-0.0.1-SNAPSHOT.jar > myworkspace.log &
 spring:
   application:
-    name: foodRecipe
+    name: search
   profiles:
     active: default
 #    -defualt <- 밑에 들어갈때는 대시'-'문자가 필요
@@ -27,4 +27,14 @@ spring:
     username: rabbitmq
     password: password123
   api:
-    base-path: http://192.168.0.29:8080    
+    base-path: http://ec2-13-124-101-115.ap-northeast-2.compute.amazonaws.com:8080  
+      
+eureka:
+  client:
+    service-url:
+      # 유레카 서버의 주소를 작성
+      # 유레카 설치된 ec2 ip 주소:8761/eureka/
+      defaultZone: http://3.36.141.39:8761/eureka/
+  instance:    
+      # 본인 서비스의 ec2 ip 주소
+    hostname: 3.36.141.39

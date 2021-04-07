@@ -17,10 +17,7 @@ import com.example.search.entity.Category;
 import com.example.search.entity.SearchRecipe;
 import com.example.search.repository.CategoryRepository;
 import com.example.search.repository.SearchRecipeRepository;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.Gson;
 
 @Service
 public class SearchRecipeService {
@@ -63,7 +60,7 @@ public class SearchRecipeService {
 			System.out.println("image 삽입 실행");
 			StringBuilder builder = new StringBuilder();
 //			builder.append("http://ec2-3-34-127-170.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
-			builder.append("http://192.168.0.29:8080/recipe/" + recipe.getRecipeId());
+			builder.append("http://192.168.0.29:8080/recipes/" + recipe.getRecipeId());
 			System.out.println("builder");
 			URL url = new URL(builder.toString());
 			System.out.println("url 생성");
@@ -71,12 +68,8 @@ public class SearchRecipeService {
 			System.out.println("con 생성");
 
 			byte[] read = con.getInputStream().readAllBytes();
-			System.out.println(read);
+
 			String data = new String(read);
-
-			System.out.println(data);
-
-			data = data.substring(1, data.length() - 1);
 
 			if (data.isBlank())
 				return;
@@ -84,17 +77,22 @@ public class SearchRecipeService {
 			System.out.println("===== Data =====");
 			System.out.println(data);
 
-//			RecipeResponse recipeRes = new Gson().fromJson(data, RecipeResponse.class);
-			JsonObject json = new JsonParser().parse(data).getAsJsonObject();
-			JsonArray jsonArray = json.getAsJsonArray("recipefile");
-			JsonObject json1 = jsonArray.get(0).getAsJsonObject();
-			JsonPrimitive jsonPre = json1.getAsJsonPrimitive("dataUrl");
-			String imageUrl = jsonPre.getAsString();
+			Recipe[] recipeObject = new Gson().fromJson(data, Recipe[].class);
+			System.out.println(recipeObject[0].getRecipefile().isEmpty());
+//			JsonObject json = new JsonParser().parse(data).getAsJsonObject();
+//			JsonArray jsonArray = json.getAsJsonArray("recipefile");
+//			JsonObject json1 = jsonArray.get(0).getAsJsonObject();
+//			JsonPrimitive jsonPre = json1.getAsJsonPrimitive("dataUrl");
+//			String imageUrl = jsonPre.getAsString();
+			if (recipeObject[0].getRecipefile().isEmpty()) {
+				searchRepo.save(addRecipe);
+				return;
+			}
 
 			System.out.println("===== Recipe Response =====");
-			System.out.println(imageUrl);
+			System.out.println(recipeObject[0].getRecipefile().get(0).getDataUrl());
 
-			addRecipe.setImage(imageUrl);
+			addRecipe.setImage(recipeObject[0].getRecipefile().get(0).getDataUrl());
 
 		} else {
 			addRecipe.setImage(recipe.getImage());

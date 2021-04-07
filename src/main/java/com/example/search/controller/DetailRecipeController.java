@@ -8,8 +8,10 @@ import java.util.Set;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.search.detail.Recipe;
 import com.example.search.detail.StuffRecipe;
 import com.example.search.response.LectureResponse;
 import com.example.search.response.ProductResponse;
@@ -24,23 +26,19 @@ public class DetailRecipeController {
 		this.service = service;
 	}
 
-//	@GetMapping(value = "/recipe/search/detail/{id}")
-//	public Recipe getDetailRecipe(@PathVariable long id) {
-//		Recipe recipeRes = service.getRecipeDetail(id);
-//		System.out.println(recipeRes);
-////		Recipe recipe = new Recipe(recipeRes.getRecipe().get(0));
-//		return recipeRes;
-//	}
+	@GetMapping(value = "/recipe/detail/{id}")
+	public Recipe getDetailRecipe(@PathVariable long id) {
+		Recipe recipeRes = service.getRecipeDetail(id);
+		return recipeRes;
+	}
 
 	@GetMapping(value = "/recipe/detail/lecture/{category}")
 	public List<LectureResponse> getLecture(@PathVariable String category) {
+		if (category.isBlank())
+			return null;
 		LectureResponse[] lectureRes = service.getLecture();
-		System.out.println("===== category =====");
-		System.out.println(category);
-		List<LectureResponse> list = new ArrayList<>();
+		List<LectureResponse> list = new ArrayList<LectureResponse>();
 		for (LectureResponse lecture : lectureRes) {
-			System.out.println("====== lecture.getCategory ======");
-			System.out.println(lecture.getCategory());
 			if (list.size() == 4)
 				break;
 			if (lecture.getCategory().equals(category))
@@ -50,21 +48,18 @@ public class DetailRecipeController {
 	}
 
 	@PostMapping(value = "/recipe/detail/market")
-	public List<ProductResponse> getMarket(List<StuffRecipe> stuff) {
+	public List<ProductResponse> getMarket(@RequestBody List<StuffRecipe> stuff) {
 		ProductResponse[] product = service.getProduct();
-		System.out.println(product);
 		Set<String> stuffs = new HashSet<>();
 		for (int i = 0; i < stuff.size(); i++) {
 			stuffs.add(stuff.get(i).getStuffName());
 		}
-		List<ProductResponse> list = new ArrayList<>();
+		List<ProductResponse> list = new ArrayList<ProductResponse>();
 		for (ProductResponse pro : product) {
 			if (list.size() == 4)
 				break;
-			if (!stuffs.contains(pro.getStuff().toString()))
+			if (stuffs.contains(pro.getStuff().toString()))
 				list.add(pro);
-
-			System.out.println(list);
 		}
 		return list;
 	}
