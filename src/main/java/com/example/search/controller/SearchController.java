@@ -36,11 +36,6 @@ public class SearchController {
 		return searchRepo.findAll();
 	}
 
-	@GetMapping(value = "/recipe/search/count")
-	public int getCount() {
-		return searchRepo.findAll().size();
-	}
-
 	@PostMapping(value = "/recipe/search")
 	public SearchRecipe setSearchRecipeData(@RequestBody SearchRecipe recipe) {
 		searchRepo.save(recipe);
@@ -62,16 +57,6 @@ public class SearchController {
 			return null;
 		}
 		searchRepo.delete(recipe);
-		return recipe;
-	}
-
-	@GetMapping(value = "/recipe/search/{id}")
-	public SearchRecipe getSearchDetail(@PathVariable long id, HttpServletResponse res) {
-		SearchRecipe recipe = searchRepo.findById(id).orElse(null);
-		if (recipe == null) {
-			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return null;
-		}
 		return recipe;
 	}
 

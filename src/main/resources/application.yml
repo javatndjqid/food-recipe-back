@@ -18,10 +18,10 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch-size: 5
-        order-inserts: true
-        order-updates: true
-        generate-statistics: true
+          batch_size: 5
+        order_inserts: true
+        order_updates: true
+        generate_statistics: true
   rabbitmq:
     host: ec2-13-125-229-154.ap-northeast-2.compute.amazonaws.com
     username: rabbitmq
