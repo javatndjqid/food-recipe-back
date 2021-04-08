@@ -17,6 +17,7 @@ public class Recipe {
 
 	String recipeName;
 	String userId;
+	String userNickName;
 
 	String image;
 	String tip;
