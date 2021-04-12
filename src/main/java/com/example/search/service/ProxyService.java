@@ -22,10 +22,7 @@ public class ProxyService {
 
 	public LectureResponse[] getLecture() {
 		String data = lecture.getLecture();
-		System.out.println(data);
 		LectureResponse[] lecRes = new Gson().fromJson(data, LectureResponse[].class);
-		System.out.println("===== lecture =====");
-		System.out.println(lecRes);
 		return lecRes;
 	}
 
@@ -33,16 +30,12 @@ public class ProxyService {
 		String data = market.getProduct();
 		System.out.println(data);
 		ProductResponse[] product = new Gson().fromJson(data, ProductResponse[].class);
-		System.out.println("===== product =====");
-		System.out.println(product);
 		return product;
 	}
 
 	public Recipe getRecipeDetail(long recipeId) {
 		String json = recipe.getRecipeDetail(recipeId);
-		System.out.println(json);
 		Recipe[] detail = new Gson().fromJson(json, Recipe[].class);
-		System.out.println(detail);
 		return detail[0];
 	}
 }

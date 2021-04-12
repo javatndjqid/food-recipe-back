@@ -32,16 +32,9 @@ public class SearchRecipeService {
 
 	@RabbitListener(queues = "recipe.order")
 	public void getRecipeData(Recipe recipe) throws IOException {
-		System.out.println("----- getRecipeData Log -----");
-		System.out.println(recipe);
 		Set<String> stuffs = new HashSet<>();
-		System.out.println(recipe.getStuffRecipe());
-		System.out.println("===== getImage() =====");
-		System.out.println(recipe.getRecipefile());
-
 		if (recipe.getStuffRecipe() != null) {
 			for (StuffRecipe stuff : recipe.getStuffRecipe()) {
-				System.out.println(stuff.getStuffName());
 				stuffs.add(stuff.getStuffName());
 			}
 		}
@@ -51,15 +44,12 @@ public class SearchRecipeService {
 				.stuff(stuffs).category(category).build();
 		if (recipe.getImage() == null || recipe.getImage()
 				.equals("https://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif")) {
-			System.out.println("image 삽입 실행");
 			StringBuilder builder = new StringBuilder();
-//			builder.append("http://ec2-13-209-41-162.ap-northeast-2.compute.amazonaws.com:8080/recipes/"
-			builder.append("http://192.168.0.29:8080/recipes/" + recipe.getRecipeId());
-			System.out.println("builder");
+			builder.append("https://p31ybo8hml.execute-api.ap-northeast-2.amazonaws.com/v1/mypage/recipes/"
+//			builder.append("http://192.168.0.29:8080/recipes/"
+					+ recipe.getRecipeId());
 			URL url = new URL(builder.toString());
-			System.out.println("url 생성");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			System.out.println("con 생성");
 
 			byte[] read = con.getInputStream().readAllBytes();
 
@@ -68,9 +58,6 @@ public class SearchRecipeService {
 			if (data.isBlank())
 				return;
 
-			System.out.println("===== Data =====");
-			System.out.println(data);
-
 			Recipe[] recipeObject = new Gson().fromJson(data, Recipe[].class);
 			System.out.println(recipeObject[0].getRecipefile().isEmpty());
 			if (recipeObject[0].getRecipefile().isEmpty()) {
@@ -78,28 +65,23 @@ public class SearchRecipeService {
 				return;
 			}
 
-			System.out.println("===== Recipe Response =====");
-			System.out.println(recipeObject[0].getRecipefile().get(0).getDataUrl());
-
 			addRecipe.setImage(recipeObject[0].getRecipefile().get(0).getDataUrl());
 
 		} else {
 			addRecipe.setImage(recipe.getImage());
 		}
-		System.out.println(addRecipe);
 		searchRepo.save(addRecipe);
 	}
 
 	@RabbitListener(queues = "recipe.order.id")
 	public void DeleteData(long recipeId) {
-		System.out.println("----- DeleteData Log -----");
-		System.out.println("지울 data Id: " + recipeId);
-		long id = searchRepo.findByRecipeId(recipeId) == null ? 0 : searchRepo.findByRecipeId(recipeId).getId();
+		long id = searchRepo.findByRecipeId(recipeId) == null ?
+				0 : searchRepo.findByRecipeId(recipeId).getId();
+		
 		SearchRecipe recipe = searchRepo.findById(id).orElse(null);
-		System.out.println(id);
 		if (recipe == null) {
 			return;
 		}
-		searchRepo.delete(recipe);
+		searchRepo.delete(recipe);	
 	}
 }

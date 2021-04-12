@@ -44,7 +44,6 @@ public class SearchController {
 
 	@PostMapping(value = "/recipe/search/multi-post")
 	public List<SearchRecipe> setMultiSearchRecipe(@RequestBody List<SearchRecipe> recipes) {
-
 		return searchRepo.saveAll(recipes);
 	}
 
@@ -52,7 +51,6 @@ public class SearchController {
 	public SearchRecipe delSearchRecipe(@PathVariable long id, HttpServletResponse res) {
 		SearchRecipe recipe = searchRepo.findById(id).orElse(null);
 		if (recipe == null) {
-			System.out.println("해당 id를 가진 recipe가 존재하지 않음");
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
