@@ -28,7 +28,6 @@ public class ProxyService {
 
 	public ProductResponse[] getProduct() {
 		String data = market.getProduct();
-		System.out.println(data);
 		ProductResponse[] product = new Gson().fromJson(data, ProductResponse[].class);
 		return product;
 	}
